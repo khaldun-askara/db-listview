@@ -34,7 +34,7 @@ namespace db_listview
                 return (long)sCommand.ExecuteScalar() > 0;
             }
         }
-        public static void AddUser(string login, string password)
+        public static (long, string, string) AddUser(string login, string password, DateTime reg_date)
         {
             byte[] salt = login_and_password.GetSalt();
             string salt_str = Convert.ToBase64String(salt);
@@ -45,12 +45,13 @@ namespace db_listview
                 var sCommand = new NpgsqlCommand
                 {
                     Connection = sConn,
-                    CommandText = $@"INSERT INTO users (login, password_hash, salt, reg_date) VALUES (@login, @password_hash, @salt, current_date)"
+                    CommandText = $@"INSERT INTO users (login, password_hash, salt, reg_date) VALUES (@login, @password_hash, @salt, @reg_date) RETURNING user_id"
                 };
                 sCommand.Parameters.AddWithValue("@login", login);
                 sCommand.Parameters.AddWithValue("@password_hash", hash_str);
                 sCommand.Parameters.AddWithValue("@salt", salt_str);
-                sCommand.ExecuteNonQuery();
+                sCommand.Parameters.AddWithValue("@reg_date", reg_date);
+                return ((long)sCommand.ExecuteScalar(), hash_str, salt_str);
             }
         }
         public static void InitialiseLV(ListView listview_db)
@@ -79,7 +80,7 @@ namespace db_listview
                         ((DateTime) reader["reg_date"]).ToLongDateString()
                     })
                     {
-                        //Tag = Tuple.Create((int)reader["user_id"], (DateTime)reader["reg_date"])
+                        Tag = ((long)reader["user_id"], (DateTime)reader["reg_date"])
                     };
                     listview_db.Items.Add(lvi);
                 }

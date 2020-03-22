@@ -12,9 +12,104 @@ namespace db_listview
 {
     public partial class frm_insertupdate : Form
     {
-        public frm_insertupdate()
+        public enum ActionType
+        {
+            Insert,
+            Update
+        }
+        public string Login
+        {
+            get { return txtB_login.Text; }
+            set { txtB_login.Text = value; }
+        }
+        public string Password
+        {
+            get { return txtB_password.Text; }
+        }
+        public DateTime Reg_date
+        {
+            get { return dtp_reg_date.Value; }
+            set { dtp_reg_date.Value = value; }
+        }
+
+        private void EnableRegBTN()
+        {
+            bool something_wrong = false;
+            erp_login.SetError(txtB_login, "");
+            erp_login.SetError(txtB_password, "");
+
+            //проверка стирания строк
+            if (txtB_login.Text == "" || txtB_login.Text == null)
+            {
+                erp_login.SetError(txtB_login, "");
+                something_wrong = true;
+            }
+            else
+            {
+                //проверка корректности и существования логина
+                if (!login_and_password.CorrectLogin(txtB_login.Text))
+                {
+                    something_wrong = true;
+                    erp_login.SetError(txtB_login, "Некорректный логин! Доспустимые символы: символы, изображённые на классической русско-английской раскладке клавиатуре, а также любые пробельные символы.");
+                }
+                if (database_funcs.IsLoginExists
+                    (login_and_password.DelSpaces
+                    (txtB_login.Text)))
+                {
+                    something_wrong = true;
+                    erp_login.SetError(txtB_login, "Логин занят.");
+                }
+            }
+            if (txtB_password.Text == "" || txtB_password.Text == null)
+            {
+                erp_login.SetError(txtB_password, "");
+                something_wrong = true;
+            }
+            else
+            {
+                // проверка сложности пароля
+                if (login_and_password.PasswordScore
+                    (login_and_password.DelBorderSpaces
+                    (txtB_password.Text)) <= 2)
+                {
+                    something_wrong = true;
+                    erp_login.SetError(txtB_password, "Пароль слишком простой.");
+                }
+            }
+
+            if (something_wrong)
+            {
+                btn_OK.Enabled = false;
+                return;
+            }
+            btn_OK.Enabled = true;
+        }
+
+        public frm_insertupdate(ActionType action)
         {
             InitializeComponent();
+            btn_OK.Enabled = false;
+            switch (action)
+            {
+                case ActionType.Insert:
+                    lbl_password.Text = "Пароль";
+                    btn_OK.Text = "Добавить";
+                    break;
+                case ActionType.Update:
+                    lbl_password.Text = "Новый пароль";
+                    btn_OK.Text = "Изменить";
+                    break;
+            }
+        }
+
+        private void txtB_login_TextChanged(object sender, EventArgs e)
+        {
+            EnableRegBTN();
+        }
+
+        private void txtB_password_TextChanged(object sender, EventArgs e)
+        {
+            EnableRegBTN();
         }
     }
 }

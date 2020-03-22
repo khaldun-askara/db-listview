@@ -33,7 +33,7 @@
             this.lbl_password = new System.Windows.Forms.Label();
             this.lbl_reg_date = new System.Windows.Forms.Label();
             this.txtB_login = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtB_password = new System.Windows.Forms.TextBox();
             this.dtp_reg_date = new System.Windows.Forms.DateTimePicker();
             this.btn_OK = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
@@ -77,17 +77,20 @@
             // 
             this.txtB_login.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtB_login.Location = new System.Drawing.Point(91, 128);
+            this.txtB_login.MaxLength = 50;
             this.txtB_login.Name = "txtB_login";
             this.txtB_login.Size = new System.Drawing.Size(336, 22);
             this.txtB_login.TabIndex = 3;
+            this.txtB_login.TextChanged += new System.EventHandler(this.txtB_login_TextChanged);
             // 
-            // textBox2
+            // txtB_password
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(91, 173);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(336, 22);
-            this.textBox2.TabIndex = 4;
+            this.txtB_password.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtB_password.Location = new System.Drawing.Point(91, 173);
+            this.txtB_password.Name = "txtB_password";
+            this.txtB_password.Size = new System.Drawing.Size(336, 22);
+            this.txtB_password.TabIndex = 4;
+            this.txtB_password.TextChanged += new System.EventHandler(this.txtB_password_TextChanged);
             // 
             // dtp_reg_date
             // 
@@ -101,6 +104,7 @@
             // btn_OK
             // 
             this.btn_OK.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btn_OK.Location = new System.Drawing.Point(91, 267);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(336, 55);
@@ -111,6 +115,7 @@
             // btn_cancel
             // 
             this.btn_cancel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.Location = new System.Drawing.Point(91, 328);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(336, 55);
@@ -134,7 +139,7 @@
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_OK);
             this.Controls.Add(this.dtp_reg_date);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtB_password);
             this.Controls.Add(this.txtB_login);
             this.Controls.Add(this.lbl_reg_date);
             this.Controls.Add(this.lbl_password);
@@ -155,7 +160,7 @@
         private System.Windows.Forms.Label lbl_password;
         private System.Windows.Forms.Label lbl_reg_date;
         private System.Windows.Forms.TextBox txtB_login;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtB_password;
         private System.Windows.Forms.DateTimePicker dtp_reg_date;
         private System.Windows.Forms.Button btn_OK;
         private System.Windows.Forms.Button btn_cancel;
