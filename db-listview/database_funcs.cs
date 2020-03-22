@@ -78,6 +78,20 @@ namespace db_listview
                 return (hash_str, salt_str);
             }
         }
+        public static void DeleteUsers(long[] ids)
+        {
+            using (var sConn = new NpgsqlConnection(sConnStr))
+            {
+                sConn.Open();
+                var sCommand = new NpgsqlCommand
+                {
+                    Connection = sConn,
+                    CommandText = @"DELETE FROM users WHERE user_id = ANY(@user_id)"
+                };
+                sCommand.Parameters.AddWithValue("@user_id", ids);
+                sCommand.ExecuteNonQuery();
+            }
+        }
         public static void InitialiseLV(ListView listview_db)
         {
             listview_db.Clear();

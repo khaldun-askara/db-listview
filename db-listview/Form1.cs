@@ -63,5 +63,14 @@ namespace db_listview
                 curr_user.Tag = Tuple.Create(user_id, frm_insert.Reg_date);
             }
         }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            long[] id_for_delete = lv_main.SelectedItems.Cast<ListViewItem>()
+                .Select(x => ((Tuple<long, DateTime>)x.Tag).Item1).ToArray();
+            database_funcs.DeleteUsers(id_for_delete);
+            foreach (ListViewItem curr_user in lv_main.SelectedItems)
+                lv_main.Items.Remove(curr_user);
+        }
     }
 }
