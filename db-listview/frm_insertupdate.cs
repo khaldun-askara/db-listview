@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace db_listview
 {
-    public partial class frm_main : Form
+    public partial class frm_insertupdate : Form
     {
-        public frm_main()
+        public frm_insertupdate()
         {
             InitializeComponent();
         }
