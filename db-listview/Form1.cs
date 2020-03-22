@@ -15,17 +15,34 @@ namespace db_listview
         public frm_main()
         {
             InitializeComponent();
-            database_funcs.InitialiseLV(lv_main);
+            try
+            {
+                database_funcs.InitialiseLV(lv_main);
+            }
+            catch
+            {
+                MessageBox.Show("Ой! Что-то пошло не так! Попробуйте снова! (｡╯3╰｡)");
+                return;
+            }
         }
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var frm_insert = new frm_insertupdate(frm_insertupdate.ActionType.Insert);
             if (frm_insert.ShowDialog() != DialogResult.OK)
                 return;
-            (long, string, string) add_result = database_funcs.AddUser(
-                frm_insert.Login, 
-                frm_insert.Password, 
+            (long, string, string) add_result = (0, "", "");
+            try
+            {
+                add_result = database_funcs.AddUser(
+                frm_insert.Login,
+                frm_insert.Password,
                 frm_insert.Reg_date);
+            }
+            catch
+            {
+                MessageBox.Show("Ой! Что-то пошло не так! Попробуйте снова! (｡╯3╰｡)");
+                return;
+            }
             var lvi = new ListViewItem(new[]
                     {
                         frm_insert.Login,
@@ -50,22 +67,39 @@ namespace db_listview
                 frm_insert.Reg_date = reg_date;
                 if (frm_insert.ShowDialog() != DialogResult.OK)
                     continue;
-                (string, string) hash_ahd_salt = database_funcs.UpdateUser(user_id,
+                (string, string) hash_ahd_salt = ("", "");
+                try
+                {
+                    hash_ahd_salt = database_funcs.UpdateUser(user_id,
                     frm_insert.Login,
                     frm_insert.Password,
                     frm_insert.Reg_date);
+                }
+                catch
+                {
+                    MessageBox.Show("Ой! Что-то пошло не так! Попробуйте снова! (｡╯3╰｡)");
+                    return;
+                }
                 curr_user.SubItems[0].Text = frm_insert.Login;
                 curr_user.SubItems[1].Text = hash_ahd_salt.Item1;
                 curr_user.SubItems[2].Text = hash_ahd_salt.Item2;
                 curr_user.SubItems[3].Text = frm_insert.Reg_date.ToLongDateString();
                 curr_user.Tag = Tuple.Create(user_id, frm_insert.Reg_date);
-            }
+                }
         }
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             long[] id_for_delete = lv_main.SelectedItems.Cast<ListViewItem>()
                 .Select(x => ((Tuple<long, DateTime>)x.Tag).Item1).ToArray();
-            database_funcs.DeleteUsers(id_for_delete);
+            try
+            {
+                database_funcs.DeleteUsers(id_for_delete);
+            }
+            catch
+            {
+                MessageBox.Show("Ой! Что-то пошло не так! Попробуйте снова! (｡╯3╰｡)");
+                return;
+            }
             foreach (ListViewItem curr_user in lv_main.SelectedItems)
                 lv_main.Items.Remove(curr_user);
         }
