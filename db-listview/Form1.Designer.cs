@@ -79,12 +79,14 @@
             // lv_main
             // 
             this.lv_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lv_main.FullRowSelect = true;
             this.lv_main.HideSelection = false;
             this.lv_main.Location = new System.Drawing.Point(0, 28);
             this.lv_main.Name = "lv_main";
             this.lv_main.Size = new System.Drawing.Size(800, 422);
             this.lv_main.TabIndex = 1;
             this.lv_main.UseCompatibleStateImageBehavior = false;
+            this.lv_main.View = System.Windows.Forms.View.Details;
             // 
             // frm_main
             // 

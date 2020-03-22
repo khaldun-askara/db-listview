@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace db_listview
 {
@@ -51,6 +52,40 @@ namespace db_listview
                 sCommand.Parameters.AddWithValue("@salt", salt_str);
                 sCommand.ExecuteNonQuery();
             }
+        }
+        public static void InitialiseLV(ListView listview_db)
+        {
+            listview_db.Clear();
+            listview_db.Columns.Add("Логин");
+            listview_db.Columns.Add("Хеш пароля");
+            listview_db.Columns.Add("Соль");
+            listview_db.Columns.Add("Дата регистрации");
+            using(var sConn = new NpgsqlConnection(sConnStr))
+            {
+                sConn.Open();
+                var sCommand = new NpgsqlCommand
+                {
+                    Connection = sConn,
+                    CommandText = @"SELECT user_id, login, password_hash, salt, reg_date FROM users"
+                };
+                var reader = sCommand.ExecuteReader();
+                while(reader.Read())
+                {
+                    var lvi = new ListViewItem(new[]
+                    {
+                        (string) reader["login"],
+                        (string) reader["password_hash"],
+                        (string) reader["salt"],
+                        ((DateTime) reader["reg_date"]).ToLongDateString()
+                    })
+                    {
+                        //Tag = Tuple.Create((int)reader["user_id"], (DateTime)reader["reg_date"])
+                    };
+                    listview_db.Items.Add(lvi);
+                }
+            }
+            listview_db.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listview_db.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }
 }

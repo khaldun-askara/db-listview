@@ -15,6 +15,7 @@ namespace db_listview
         public frm_main()
         {
             InitializeComponent();
+            database_funcs.InitialiseLV(lv_main);
         }
     }
 }
