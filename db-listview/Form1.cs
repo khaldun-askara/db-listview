@@ -48,7 +48,7 @@ namespace db_listview
                 long user_id = curr_tag.Item1;
                 DateTime reg_date = curr_tag.Item2;
                 var frm_insert = new frm_insertupdate(frm_insertupdate.ActionType.Update);
-                frm_insert.Login = curr_user.SubItems[0].Text;
+                frm_insert.Login = frm_insert.Old_login = curr_user.SubItems[0].Text;
                 frm_insert.Reg_date = reg_date;
                 if (frm_insert.ShowDialog() != DialogResult.OK)
                     continue;
