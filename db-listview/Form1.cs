@@ -17,7 +17,6 @@ namespace db_listview
             InitializeComponent();
             database_funcs.InitialiseLV(lv_main);
         }
-
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var frm_insert = new frm_insertupdate(frm_insertupdate.ActionType.Insert);
@@ -39,7 +38,6 @@ namespace db_listview
             };
             lv_main.Items.Add(lvi);
         }
-
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem curr_user in lv_main.SelectedItems)
@@ -63,7 +61,6 @@ namespace db_listview
                 curr_user.Tag = Tuple.Create(user_id, frm_insert.Reg_date);
             }
         }
-
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             long[] id_for_delete = lv_main.SelectedItems.Cast<ListViewItem>()

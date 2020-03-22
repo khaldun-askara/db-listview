@@ -36,7 +36,6 @@ namespace db_listview
             get { return dtp_reg_date.Value; }
             set { dtp_reg_date.Value = value; }
         }
-
         private void EnableRegBTN()
         {
             bool something_wrong = false;
@@ -89,7 +88,6 @@ namespace db_listview
             }
             btn_OK.Enabled = true;
         }
-
         public frm_insertupdate(ActionType action)
         {
             InitializeComponent();
@@ -106,12 +104,10 @@ namespace db_listview
                     break;
             }
         }
-
         private void txtB_login_TextChanged(object sender, EventArgs e)
         {
             EnableRegBTN();
         }
-
         private void txtB_password_TextChanged(object sender, EventArgs e)
         {
             EnableRegBTN();
