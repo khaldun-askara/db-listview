@@ -54,6 +54,30 @@ namespace db_listview
                 return ((long)sCommand.ExecuteScalar(), hash_str, salt_str);
             }
         }
+        public static (string, string) UpdateUser(long id, string login, string password, DateTime reg_date)
+        {
+            byte[] salt = login_and_password.GetSalt();
+            string salt_str = Convert.ToBase64String(salt);
+            string hash_str = Convert.ToBase64String(login_and_password.GetHash(password, salt));
+            using (var sConn = new NpgsqlConnection(sConnStr))
+            {
+                sConn.Open();
+                var sCommand = new NpgsqlCommand
+                {
+                    Connection = sConn,
+                    CommandText = $@"UPDATE users
+                                    SET login = @login, password_hash = @password_hash, salt = @salt, reg_date = @reg_date
+                                    WHERE user_id = @user_id"
+                };
+                sCommand.Parameters.AddWithValue("@user_id", id);
+                sCommand.Parameters.AddWithValue("@login", login);
+                sCommand.Parameters.AddWithValue("@password_hash", hash_str);
+                sCommand.Parameters.AddWithValue("@salt", salt_str);
+                sCommand.Parameters.AddWithValue("@reg_date", reg_date);
+                sCommand.ExecuteNonQuery(); 
+                return (hash_str, salt_str);
+            }
+        }
         public static void InitialiseLV(ListView listview_db)
         {
             listview_db.Clear();
@@ -80,7 +104,7 @@ namespace db_listview
                         ((DateTime) reader["reg_date"]).ToLongDateString()
                     })
                     {
-                        Tag = ((long)reader["user_id"], (DateTime)reader["reg_date"])
+                        Tag = Tuple.Create((long)reader["user_id"], (DateTime)reader["reg_date"])
                     };
                     listview_db.Items.Add(lvi);
                 }

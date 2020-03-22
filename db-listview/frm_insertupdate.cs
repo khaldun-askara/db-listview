@@ -12,6 +12,7 @@ namespace db_listview
 {
     public partial class frm_insertupdate : Form
     {
+        private bool login_exists_check;
         public enum ActionType
         {
             Insert,
@@ -52,7 +53,7 @@ namespace db_listview
                     something_wrong = true;
                     erp_login.SetError(txtB_login, "Некорректный логин! Доспустимые символы: символы, изображённые на классической русско-английской раскладке клавиатуре, а также любые пробельные символы.");
                 }
-                if (database_funcs.IsLoginExists
+                if (login_exists_check && database_funcs.IsLoginExists
                     (login_and_password.DelSpaces
                     (txtB_login.Text)))
                 {
@@ -94,10 +95,12 @@ namespace db_listview
                 case ActionType.Insert:
                     lbl_password.Text = "Пароль";
                     btn_OK.Text = "Добавить";
+                    login_exists_check = true;
                     break;
                 case ActionType.Update:
                     lbl_password.Text = "Новый пароль";
                     btn_OK.Text = "Изменить";
+                    login_exists_check = false;
                     break;
             }
         }

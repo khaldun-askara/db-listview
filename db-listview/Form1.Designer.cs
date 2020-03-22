@@ -44,7 +44,7 @@
             this.правкаToolStripMenuItem});
             this.menuStrip_main.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_main.Name = "menuStrip_main";
-            this.menuStrip_main.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip_main.Size = new System.Drawing.Size(800, 30);
             this.menuStrip_main.TabIndex = 0;
             this.menuStrip_main.Text = "menuStrip1";
             // 
@@ -55,7 +55,7 @@
             this.изменитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.правкаToolStripMenuItem.Name = "правкаToolStripMenuItem";
-            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(74, 26);
             this.правкаToolStripMenuItem.Text = "Правка";
             // 
             // добавитьToolStripMenuItem
@@ -68,8 +68,9 @@
             // изменитьToolStripMenuItem
             // 
             this.изменитьToolStripMenuItem.Name = "изменитьToolStripMenuItem";
-            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.изменитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.изменитьToolStripMenuItem.Text = "Изменить";
+            this.изменитьToolStripMenuItem.Click += new System.EventHandler(this.изменитьToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
@@ -82,9 +83,9 @@
             this.lv_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_main.FullRowSelect = true;
             this.lv_main.HideSelection = false;
-            this.lv_main.Location = new System.Drawing.Point(0, 28);
+            this.lv_main.Location = new System.Drawing.Point(0, 30);
             this.lv_main.Name = "lv_main";
-            this.lv_main.Size = new System.Drawing.Size(800, 422);
+            this.lv_main.Size = new System.Drawing.Size(800, 420);
             this.lv_main.TabIndex = 1;
             this.lv_main.UseCompatibleStateImageBehavior = false;
             this.lv_main.View = System.Windows.Forms.View.Details;

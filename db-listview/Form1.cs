@@ -35,9 +35,33 @@ namespace db_listview
                         ((DateTime) frm_insert.Reg_date).ToLongDateString()
                     })
             {
-                Tag = (add_result.Item1, frm_insert.Reg_date)
+                Tag = Tuple.Create(add_result.Item1, frm_insert.Reg_date)
             };
             lv_main.Items.Add(lvi);
+        }
+
+        private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem curr_user in lv_main.SelectedItems)
+            {
+                var curr_tag = (Tuple<long, DateTime>)curr_user.Tag;
+                long user_id = curr_tag.Item1;
+                DateTime reg_date = curr_tag.Item2;
+                var frm_insert = new frm_insertupdate(frm_insertupdate.ActionType.Update);
+                frm_insert.Login = curr_user.SubItems[0].Text;
+                frm_insert.Reg_date = reg_date;
+                if (frm_insert.ShowDialog() != DialogResult.OK)
+                    continue;
+                (string, string) hash_ahd_salt = database_funcs.UpdateUser(user_id,
+                    frm_insert.Login,
+                    frm_insert.Password,
+                    frm_insert.Reg_date);
+                curr_user.SubItems[0].Text = frm_insert.Login;
+                curr_user.SubItems[1].Text = hash_ahd_salt.Item1;
+                curr_user.SubItems[2].Text = hash_ahd_salt.Item2;
+                curr_user.SubItems[3].Text = frm_insert.Reg_date.ToLongDateString();
+                curr_user.Tag = Tuple.Create(user_id, frm_insert.Reg_date);
+            }
         }
     }
 }
