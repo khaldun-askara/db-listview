@@ -92,6 +92,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_confirm_delete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_confirm_delete.Designer.cs">
+      <DependentUpon>frm_confirm_delete.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_insertupdate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_confirm_delete.resx">
+      <DependentUpon>frm_confirm_delete.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_insertupdate.resx">
       <DependentUpon>frm_insertupdate.cs</DependentUpon>

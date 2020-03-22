@@ -89,6 +89,11 @@ namespace db_listview
         }
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (lv_main.SelectedItems.Count <= 0)
+                return;
+            var frm_delete = new frm_confirm_delete();
+            if (frm_delete.ShowDialog() != DialogResult.OK)
+                return;
             long[] id_for_delete = lv_main.SelectedItems.Cast<ListViewItem>()
                 .Select(x => ((Tuple<long, DateTime>)x.Tag).Item1).ToArray();
             try
