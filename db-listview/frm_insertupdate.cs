@@ -12,6 +12,7 @@ namespace db_listview
 {
     public partial class frm_insertupdate : Form
     {
+        private bool check_old_log_not_need = false;
         private string old_login = "";
         public enum ActionType
         {
@@ -56,7 +57,9 @@ namespace db_listview
                     something_wrong = true;
                     erp_login.SetError(txtB_login, "Некорректный логин! Доспустимые символы: символы, изображённые на классической русско-английской раскладке клавиатуре, а также любые пробельные символы.");
                 }
-                if (txtB_login.Text != old_login && database_funcs.IsLoginExists
+                // если добавление, то check_old_log_not_need по умолчанию true, и у нас всегда там true
+                // если инзменение, то оно false, и результат зависит от старого логина
+                if ((txtB_login.Text != old_login || check_old_log_not_need) && database_funcs.IsLoginExists
                     (login_and_password.DelSpaces
                     (txtB_login.Text)))
                 {
@@ -97,10 +100,12 @@ namespace db_listview
                 case ActionType.Insert:
                     lbl_password.Text = "Пароль";
                     btn_OK.Text = "Добавить";
+                    check_old_log_not_need = true;
                     break;
                 case ActionType.Update:
                     lbl_password.Text = "Новый пароль";
                     btn_OK.Text = "Изменить";
+                    check_old_log_not_need = false;
                     break;
             }
         }
