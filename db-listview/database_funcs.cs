@@ -56,6 +56,23 @@ namespace db_listview
         }
         public static (string, string) UpdateUser(long id, string login, string password, DateTime reg_date)
         {
+            if (password == null || password == "")
+                using (var sConn = new NpgsqlConnection(sConnStr))
+                {
+                    sConn.Open();
+                    var sCommand = new NpgsqlCommand
+                    {
+                        Connection = sConn,
+                        CommandText = $@"UPDATE users
+                                    SET login = @login, reg_date = @reg_date
+                                    WHERE user_id = @user_id"
+                    };
+                    sCommand.Parameters.AddWithValue("@user_id", id);
+                    sCommand.Parameters.AddWithValue("@login", login);
+                    sCommand.Parameters.AddWithValue("@reg_date", reg_date);
+                    sCommand.ExecuteNonQuery();
+                    return ("", "");
+                }
             byte[] salt = login_and_password.GetSalt();
             string salt_str = Convert.ToBase64String(salt);
             string hash_str = Convert.ToBase64String(login_and_password.GetHash(password, salt));

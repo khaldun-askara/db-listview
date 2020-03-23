@@ -81,8 +81,11 @@ namespace db_listview
                     return;
                 }
                 curr_user.SubItems[0].Text = frm_insert.Login;
-                curr_user.SubItems[1].Text = hash_ahd_salt.Item1;
-                curr_user.SubItems[2].Text = hash_ahd_salt.Item2;
+                if (hash_ahd_salt.Item1 != "")
+                {
+                    curr_user.SubItems[1].Text = hash_ahd_salt.Item1;
+                    curr_user.SubItems[2].Text = hash_ahd_salt.Item2;
+                }
                 curr_user.SubItems[3].Text = frm_insert.Reg_date.ToLongDateString();
                 curr_user.Tag = Tuple.Create(user_id, frm_insert.Reg_date);
                 }

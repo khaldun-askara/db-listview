@@ -70,7 +70,8 @@ namespace db_listview
             if (txtB_password.Text == "" || txtB_password.Text == null)
             {
                 erp_login.SetError(txtB_password, "");
-                something_wrong = true;
+                something_wrong = something_wrong || check_old_log_not_need;
+                //something_wrong = true;
             }
             else
             {
